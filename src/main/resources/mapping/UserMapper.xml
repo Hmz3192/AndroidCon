@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.zjnu.hmz.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="cn.zjnu.hmz.model.User" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="pass" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="hxid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="nickName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="photo" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sex" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="signture" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pass, hxid, nickName, photo, sex, signture
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectNick" resultType="cn.zjnu.hmz.model.User">
+      select * from user WHERE nickName = #{nickName,jdbcType= VARCHAR}
+    </select>
+
+  <select id="getOneInfo" parameterType="java.lang.String" resultType="cn.zjnu.hmz.model.User">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where hxid = #{hxid,jdbcType=VARCHAR}
+  </select>
+    <select id="getPic" resultType="cn.zjnu.hmz.model.User">
+      SELECT
+      *
+      FROM
+      user
+      WHERE
+      hxid  = #{hxid,jdbcType=INTEGER}
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.zjnu.hmz.model.User" >
+    insert into user (id, pass, hxid, 
+      nickName, photo, sex, 
+      signture)
+    values (#{id,jdbcType=INTEGER}, #{pass,jdbcType=VARCHAR}, #{hxid,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{signture,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.zjnu.hmz.model.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pass != null" >
+        pass,
+      </if>
+      <if test="hxid != null" >
+        hxid,
+      </if>
+      <if test="nickname != null" >
+        nickName,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="signture != null" >
+        signture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pass != null" >
+        #{pass,jdbcType=VARCHAR},
+      </if>
+      <if test="hxid != null" >
+        #{hxid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="signture != null" >
+        #{signture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertUser">
+     insert into user (pass, hxid,
+      nickName, photo, sex)
+    values (#{pass,jdbcType=VARCHAR}, #{hxid,jdbcType=VARCHAR},
+      #{nickName,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}
+      )
+
+  </insert>
+  <insert id="insertNorUser" >
+      insert into user (pass, hxid,
+      nickName,photo,sex)
+    values (#{pass,jdbcType=VARCHAR}, #{hxid,jdbcType=VARCHAR},
+    #{nickName,jdbcType=VARCHAR},  #{photo,jdbcType=VARCHAR},    #{sex,jdbcType=INTEGER})
+
+
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.zjnu.hmz.model.User" >
+    update user
+    <set >
+      <if test="pass != null" >
+        pass = #{pass,jdbcType=VARCHAR},
+      </if>
+      <if test="hxid != null" >
+        hxid = #{hxid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="signture != null" >
+        signture = #{signture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.zjnu.hmz.model.User" >
+    update user
+    set pass = #{pass,jdbcType=VARCHAR},
+      hxid = #{hxid,jdbcType=VARCHAR},
+      nickName = #{nickname,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      signture = #{signture,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateNick" >
+    update user
+      SET  nickName = #{nickname,jdbcType=VARCHAR}
+      where hxid = #{hxid,jdbcType = VARCHAR}
+  </update>
+  <update id="updateSig" >
+    update user
+      SET  signture = #{Sig,jdbcType=VARCHAR}
+       where hxid = #{hxid,jdbcType = VARCHAR}
+  </update>
+  <update id="updateSex" >
+    update user
+      SET  sex = #{sex,jdbcType=INTEGER}
+       where hxid = #{hxid,jdbcType = VARCHAR}
+  </update>
+  <update id="updatePic">
+     update user
+      SET  photo = #{url,jdbcType=VARCHAR}
+       where hxid = #{hxid,jdbcType = VARCHAR}
+  </update>
+</mapper>
